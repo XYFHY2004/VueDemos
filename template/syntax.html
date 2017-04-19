@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>template syntax</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app1">
+    <!-- 过滤器 -->
+    <span>message:{{ msg | uppercase }}</span>
+    <p>
+        <!--只绑定一次-->
+        <span v-once>This will never change:{{ msg }}</span>
+    </p>
+
+    <!--原始 html 输出 -->
+    <p v-html="originalhtml"></p>
+
+    <p>
+    <div>{{ dynamicId }}</div>
+
+    <!-- 指令参数 使用 ":" 分割 -->
+    <div v-bind:id="dynamicId">有id的元素</div>
+
+    <button v-bind:disabled="dynamicCondition" v-on:click="dynamitButClick">DynamicBut</button>
+
+    <!-- v-bind 、v-click 的缩写 -->
+    <button :disabled="dynamicCondition" @click="dynamitButClick">DynamicBut</button>
+
+    <!-- 使用 js表达式 -->
+    <div>disabled 的值为：{{ dynamicCondition ? "true" : "fase"}}</div>
+    </p>
+
+
+</div>
+
+<script>
+    var app1 = new Vue({
+        el: '#app1',
+
+        data: {
+            msg: 'Hello Vue Template',
+            originalhtml: '<span>原始内容: {{ msg }}</span>',
+            dynamicId: '12345',
+            dynamicCondition: false
+        },
+
+        methods: {
+            dynamitButClick: function () {
+                this.dynamicCondition = !this.dynamicCondition;
+            }
+        },
+
+        filters:{
+         uppercase:function (value) {
+             if(!value){
+                 return ''
+             }
+             else {
+                 return value.toUpperCase();
+             }
+         }
+        },
+    });
+</script>
+</body>
+</html>
